@@ -1,15 +1,23 @@
+import axios from 'axios';
 
-const TOKEN_KEY = 'llm_token';
+const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export function saveToken(token) {
-  if (typeof window !== "undefined") localStorage.setItem(TOKEN_KEY, token);
+export async function isLoggedIn() {
+  const token = localStorage.getItem("token");
+  if (!token) return false;
+
+  try {
+    await axios.get(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return true;
+  } catch (err) {
+    // token invalid → logout user
+    localStorage.removeItem("token");
+    return false;
+  }
 }
 
-export function getToken() {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem(TOKEN_KEY);
-}
-
-export function removeToken() {
-  if (typeof window !== "undefined") localStorage.removeItem(TOKEN_KEY);
+export function clearToken() {
+  localStorage.removeItem("token");
 }
