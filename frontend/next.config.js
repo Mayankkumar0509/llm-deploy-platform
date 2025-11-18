@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   experimental: { appDir: false },
@@ -5,11 +6,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
-module.exports = {
-  output: "export",
-  basePath: "",
-  trailingSlash: true,
-};
-
 
