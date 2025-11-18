@@ -29,3 +29,8 @@ export default function NavBar() {
     </nav>
   );
 }
+useEffect(() => {
+  isLoggedIn().then((status) => {
+    setIsAuthenticated(status);
+  });
+}, []);
