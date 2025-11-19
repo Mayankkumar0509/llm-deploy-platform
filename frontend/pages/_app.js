@@ -1,14 +1,17 @@
-
 import "../styles/globals.css";
-import DarkModeToggle from "../components/DarkModeToggle";
+import { useEffect } from "react";
 import NavBar from "../components/NavBar";
 
-export default function App({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
+
+  useEffect(() => {
+    console.log("App mounted");
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition">
+    <>
       <NavBar />
       <Component {...pageProps} />
-      <DarkModeToggle />
-    </div>
+    </>
   );
 }
