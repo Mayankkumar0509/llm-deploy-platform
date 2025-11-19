@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: { appDir: false },
-  pageExtensions: ['js', 'jsx']
+
+  experimental: {
+    optimizePackageImports: [],
+  },
+
+  pageExtensions: ["js", "jsx"],
+
+  output: "standalone",
+
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;
