@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  pageExtensions: ["js", "jsx"],
+  swcMinify: true,
   output: "standalone"
 };
+
 module.exports = nextConfig;
