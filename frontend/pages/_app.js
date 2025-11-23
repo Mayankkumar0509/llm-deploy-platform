@@ -2,6 +2,7 @@
 
 import "../styles/globals.css";
 import NavBar from "../components/NavBar";
+import React
 import { useEffect } from "react";
 
 export default function MyApp({ Component, pageProps }) {
