@@ -16,12 +16,7 @@ export default function Register() {
     <div className="mt-12">
       <h1 className="text-xl font-semibold mb-4">Register</h1>
       <AuthForm onSubmit={register} submitLabel="Register" />
-      <p className="mt-4 text-sm">
-        Already have an account?{" "}
-        <a className="text-sky-600 hover:underline" href="/">
-          Login
-        </a>
-      </p>
     </div>
   );
 }
+
