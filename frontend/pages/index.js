@@ -17,11 +17,9 @@ export default function Login() {
       <h1 className="text-xl font-semibold mb-4">Login</h1>
       <AuthForm onSubmit={login} submitLabel="Login" />
       <p className="mt-4 text-sm">
-        No account?{" "}
-        <a className="text-sky-600 hover:underline" href="/register">
-          Register
-        </a>
+        No account? <a className="text-sky-600" href="/register">Register</a>
       </p>
     </div>
   );
 }
+
