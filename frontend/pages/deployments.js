@@ -1,3 +1,4 @@
+// frontend/pages/deployments.js
 import { useEffect, useState } from "react";
 import api from "../lib/api";
 import { getToken } from "../lib/auth";
@@ -13,15 +14,13 @@ export default function Deployments() {
     if (!token) return router.push("/");
 
     load();
-  }, [router]);
+  }, []);
 
   async function load() {
     try {
       const r = await api.get("/deployments");
       setDeployments(r.data.deployments || []);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
     setLoading(false);
   }
 
@@ -30,9 +29,7 @@ export default function Deployments() {
       <h1 className="text-xl font-bold mb-4 text-center">Past Deployments</h1>
 
       {loading && (
-        <p className="text-center text-gray-500 dark:text-gray-300">
-          Loading...
-        </p>
+        <p className="text-center text-gray-500 dark:text-gray-300">Loading...</p>
       )}
 
       {deployments.length === 0 && !loading && (
@@ -74,7 +71,6 @@ export default function Deployments() {
               <a
                 href={d.repo_url}
                 target="_blank"
-                rel="noopener noreferrer"
                 className="block mt-3 text-blue-600 dark:text-blue-400 text-sm truncate"
               >
                 🔧 GitHub Repo
@@ -85,7 +81,6 @@ export default function Deployments() {
               <a
                 href={d.pages_url}
                 target="_blank"
-                rel="noopener noreferrer"
                 className="block mt-1 text-blue-600 dark:text-blue-400 text-sm truncate"
               >
                 🌐 View Live Website
@@ -97,3 +92,4 @@ export default function Deployments() {
     </div>
   );
 }
+
