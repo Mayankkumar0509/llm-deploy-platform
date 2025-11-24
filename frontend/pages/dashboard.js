@@ -1,3 +1,4 @@
+// frontend/pages/dashboard.js
 import { useEffect, useState } from "react";
 import api from "../lib/api";
 import { getToken } from "../lib/auth";
@@ -67,28 +68,25 @@ export default function Dashboard() {
   const [modal, setModal] = useState(null);
 
   useEffect(() => {
-    const token = getToken();
-    if (!token) return router.push("/");
+  const token = getToken();
+  if (!token) return router.push("/");
 
-    api
-      .get("/me")
-      .then((r) => {
-        setMe(r.data);
-        return api.get("/deployments");
-      })
-      .then((r) => {
-        setDeployments(r.data.deployments || []);
-      })
-      .catch(() => router.push("/"));
-  }, [router]);
+  api.get("/me")
+    .then((r) => {
+      setMe(r.data);
+      return api.get("/deployments");
+    })
+    .then((r) => {
+      setDeployments(r.data.deployments || []);
+    })
+    .catch(() => router.push("/"));
+}, []);
 
   async function loadDeployments() {
     try {
       const r = await api.get("/deployments");
       setDeployments(r.data.deployments || []);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
   }
 
   function getActiveTemplate() {
@@ -117,14 +115,8 @@ export default function Dashboard() {
       } else {
         // fallback to sample attachment if template has one
         const template = getActiveTemplate();
-        if (
-          template &&
-          template.sampleAttachmentName &&
-          template.sampleAttachmentContent
-        ) {
-          const base64 = btoa(
-            unescape(encodeURIComponent(template.sampleAttachmentContent))
-          );
+        if (template && template.sampleAttachmentName && template.sampleAttachmentContent) {
+          const base64 = btoa(unescape(encodeURIComponent(template.sampleAttachmentContent)));
           attachments.push({
             name: template.sampleAttachmentName,
             url: `data:text/plain;base64,${base64}`,
@@ -147,9 +139,7 @@ export default function Dashboard() {
           ? template.brief
           : "Custom task brief";
 
-      const nonce = `${Date.now().toString(36)}-${Math.random()
-        .toString(36)
-        .slice(2, 8)}`;
+      const nonce = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
       const taskID = `${finalTaskName}-${nonce.slice(0, 6)}`;
 
       const payload = {
@@ -176,21 +166,10 @@ export default function Dashboard() {
       setTimeout(loadDeployments, 1500);
     } catch (err) {
       console.error(err);
-      alert(
-        "Deployment failed: " +
-          (err?.response?.data?.detail || err.message)
-      );
+      alert("Deployment failed: " + (err?.response?.data?.detail || err.message));
     } finally {
       setLoading(false);
     }
-  }
-
-  if (!me) {
-    return (
-      <div className="p-4 max-w-xl mx-auto">
-        <p className="text-center text-gray-500">Loading...</p>
-      </div>
-    );
   }
 
   return (
@@ -295,7 +274,7 @@ export default function Dashboard() {
       <button
         onClick={handleDeploy}
         disabled={loading}
-        className="w-full bg-blue-600 text-white py-2 rounded mt-2 disabled:bg-gray-400"
+        className="w-full bg-blue-600 text-white py-2 rounded mt-2"
       >
         {loading ? "Deploying..." : "Deploy"}
       </button>
@@ -313,7 +292,6 @@ export default function Dashboard() {
               <a
                 href={d.repo_url}
                 target="_blank"
-                rel="noopener noreferrer"
                 className="text-blue-600 text-sm"
               >
                 Repo ↗
@@ -324,7 +302,6 @@ export default function Dashboard() {
               <a
                 href={d.pages_url}
                 target="_blank"
-                rel="noopener noreferrer"
                 className="text-blue-600 text-sm ml-3"
               >
                 Website ↗
@@ -336,7 +313,7 @@ export default function Dashboard() {
 
       {/** SUCCESS MODAL */}
       {modal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center px-4 z-50">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center px-4">
           <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
             <h3 className="text-lg font-semibold mb-2">{modal.title}</h3>
             <pre className="bg-gray-100 p-3 rounded max-h-60 overflow-auto text-xs">
@@ -354,3 +331,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
